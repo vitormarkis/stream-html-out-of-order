@@ -1,20 +1,32 @@
 import express from "express"
 import { Readable } from "node:stream"
+import { sleep } from "./sleep"
 
 const app = express()
 
-app.get("/:pokemon_id", async (req, res) => {
+app.get("/:pokemon_id", (req, res) => {
   const { pokemon_id } = req.params
   const stream = new Readable({
     read() {},
   })
 
-  stream.push("<h1>The Pokemon name is:</h1>")
+  stream.push(`
+    <h1>Pokemon name:</h1>
+    <strong id="fallback">Loading...</strong>
+  `)
 
   fetch(`https://pokeapi.co/api/v2/ability/${pokemon_id}`)
     .then(res => res.json())
-    .then(data => {
-      stream.push(`<strong>${data.name}</strong>`)
+    .then(async data => {
+      await sleep(3000)
+      stream.push(`
+        <strong id="pokemon_name">${data.name}</strong>
+        <script>
+          const fallback = document.getElementById("fallback")
+          const pokemonName = document.getElementById("pokemon_name")
+          fallback.replaceWith(pokemonName)
+        </script>
+      `)
       stream.push(null)
     })
 
