@@ -4,7 +4,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tsx watch src/server_copy.ts"
+    "dev:block": "npx tsx watch src/server_copy.ts",
+    "dev:one": "npx tsx watch src/server_stream_one.ts",
+    "dev:main": "npx tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
