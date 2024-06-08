@@ -4,6 +4,13 @@ import { sleep } from "./sleep"
 
 const app = express()
 
+/**
+ * Não precisa entender esse código
+ *
+ * Talvez esse seja o post de Quarta (12/06)
+ * caso eu consiga resumir essa bagunça :)
+ */
+
 app.get("/pokemon/:pokemon_id", async (req, res) => {
   const { pokemon_id } = req.params
   const stream = new Readable({
@@ -34,9 +41,11 @@ app.get("/pokemon/:pokemon_id", async (req, res) => {
       streamController.enqueue(`
         <strong id="pokemon_name">${data.name}</strong>
         <script>
-          const fallbackName = document.getElementById("fallback_name")
-          const pokemonName = document.getElementById("pokemon_name")
-          fallbackName.replaceWith(pokemonName)
+          (() => {
+            const fallbackName = document.getElementById("fallback_name")
+            const pokemonName = document.getElementById("pokemon_name")
+            fallbackName.replaceWith(pokemonName)
+          })()
         </script>
       `)
       promises.delete(namePromise)
